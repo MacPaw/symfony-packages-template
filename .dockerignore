@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea
+.vscode
+.phpstorm.meta.php
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+
+# CI/CD
+.github
+
+# Testing
+tests
+.phpunit.cache
+coverage
+coverage.xml
+infection.log
+infection-summary.log
+infection-debug.log
+.infection
+
+# Dependencies (will be installed in container)
+vendor
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+

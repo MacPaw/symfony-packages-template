@@ -1,0 +1,34 @@
+# Composer
+/vendor/
+composer.lock
+
+# IDE
+.idea/
+.phpstorm.meta.php
+.phpunit.result.cache
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHPUnit
+.phpunit.cache/
+coverage.xml
+coverage/
+
+# Infection
+.infection/
+infection.log
+infection-summary.log
+infection-debug.log
+
+# Symfony
+/var/
+/.phpunit.cache/
+
+# Local
+.env
+.env.local
+
+/*.cache

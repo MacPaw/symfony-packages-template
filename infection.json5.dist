@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/infection/infection/master/resources/schema.json",
+  "source": {
+    "directories": [
+      "src"
+    ],
+    "excludes": [
+      "tests"
+    ]
+  },
+  "logs": {
+    "text": "infection.log",
+    "summary": "infection-summary.log",
+    "debug": "infection-debug.log"
+  },
+  "mutators": {
+    "@default": true
+  },
+  "testFramework": "phpunit",
+  "testFrameworkOptions": "--testdox",
+  "bootstrap": "vendor/autoload.php",
+  "tmpDir": ".infection",
+  "minMsi": 80,
+  "minCoveredMsi": 90,
+  "threads": 4,
+  "ignoreMsiWithNoMutations": true
+}
+

@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+      - dev
+
+jobs:
+  ci:
+    name: Package CI
+    uses: MacPaw/github-actions/.github/workflows/symfony-php-reusable.yml@feat/add-release-workflow
+    with:
+      # Version matrix for testing across PHP and Symfony versions
+      # Only using stable, available versions
+      versions-matrix: |
+        {
+          "php": ["8.2", "8.3", "8.4"],
+          "symfony/http-kernel": ["6.4.*", "7.0.*", "7.1.*", "7.2", "7.3", "7.4"]
+        }
+
+      # Matrix include - add specific combinations (e.g., testing lowest dependencies)
+      matrix-include: |
+        [
+          {
+            "php": "8.2",
+            "symfony/http-kernel": "6.4.*",
+            "dependencies": "lowest"
+          },
+          {
+            "php": "8.4",
+            "symfony/http-kernel": "7.4.*",
+            "dependencies": "coverage",
+            "coverage": "xdebug"
+          }
+        ]
+
+      # Matrix exclude - skip specific incompatible combinations if needed
+      # Currently empty as all combinations above are valid
+      matrix-exclude: |
+        [
+            {"php": "8.2", "symfony/http-kernel": "7.0.*"},
+            {"php": "8.3", "symfony/http-kernel": "7.0.*"},
+            {"php": "8.4", "symfony/http-kernel": "7.0.*"},
+
+            {"php": "8.2", "symfony/http-kernel": "7.1.*"},
+            {"php": "8.3", "symfony/http-kernel": "7.1.*"},
+            {"php": "8.4", "symfony/http-kernel": "7.1.*"},
+
+            {"php": "8.2", "symfony/http-kernel": "7.2.*"},
+            {"php": "8.3", "symfony/http-kernel": "7.2.*"},
+            {"php": "8.4", "symfony/http-kernel": "7.2.*"},
+
+            {"php": "8.2", "symfony/http-kernel": "7.3.*"},
+            {"php": "8.3", "symfony/http-kernel": "7.3.*"},
+            {"php": "8.4", "symfony/http-kernel": "7.3.*"}
+        ]
+
+      # Testing settings
+      enable-coverage-check: true
+      coverage-threshold: 70
+      coverage-file: 'coverage.xml'
+      phpcov-version: 11.0.3
+
+      # PHP quality tools version
+      php-version-quality-tools: '8.3'
+
+      # Static analysis tools
+      enable-phpstan: true
+      phpstan-level: 'max'
+      phpstan-config: 'phpstan.neon.dist'
+
+      # Code style tools
+      enable-phpcs: true
+      phpcs-config: 'phpcs.xml.dist'
+
+      enable-php-cs-fixer: true
+      php-cs-fixer-config: '.php-cs-fixer.dist.php'
+
+      # Refactoring tool
+      enable-rector: true
+      rector-config: 'rector.php'
+
+      # Mutation testing
+      enable-infection: true
+      infection-config: 'infection.json5.dist'
+      infection-min-msi: 80
+      infection-min-covered-msi: 90
+
+      # Other validation tools
+      enable-composer-validate: true
+      enable-commitlint: true
+      commitlint-config: 'commitlint.config.js'
+
+      # Environment configuration
+      php-extensions: 'mbstring, json, xdebug'
+      working-directory: '.'

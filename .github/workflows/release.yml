@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - next
+      - beta
+      - alpha
+      - '[0-9]+.x'
+      - '[0-9]+.[0-9]+.x'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no release will be created)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    name: Release
+    uses: ./.github/workflows/release-reusable.yml
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      dry_run: ${{ inputs.dry_run || false }}
